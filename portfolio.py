@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 salaries = pd.read_csv("salaries.csv")
 salaries = salaries.drop(["employment_type","salary","salary_currency","employee_residence"], axis = 1)
@@ -8,8 +9,10 @@ salaries.rename(columns = {"work_year":"Year","experience_level":"Experience Lev
 salaries.replace({"Company Size":{"L":"Large","M":"Medium","S":"Small"}},inplace=True)
 salaries.replace({"Experience Level":{"EN":"Entry","MI":"Middle","SE":"Senior","EX":"Executive"}},inplace=True)
 salaries["Salary in Euro"] = salaries["Salary in USD"] * 0.91
+salaries["Experience Level"] = salaries["Experience Level"].astype("category")
+#salaries["Year"] = pd.to_datetime(salaries["Year"], format="%Y")
 
+salaries_year  = salaries.groupby("Year",as_index=False,).median("Salary in Euro")
+year_formatter = mdates.DateFormatter("%Y")
+salaries_year.plot.bar(x = "Year", y = "Salary in Euro")
 
-salaries2 = salaries.groupby("Year",as_index=False).median("Salary in Euro")
-
-salaries2.plot.bar(x = "Year", y = "Salary in Euro")
