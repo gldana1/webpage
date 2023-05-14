@@ -13,6 +13,11 @@ salaries["Experience Level"] = salaries["Experience Level"].astype("category")
 #salaries["Year"] = pd.to_datetime(salaries["Year"], format="%Y")
 
 salaries_year  = salaries.groupby("Year",as_index=False,).median("Salary in Euro")
-year_formatter = mdates.DateFormatter("%Y")
+#year_formatter = mdates.DateFormatter("%Y")
 salaries_year.plot.bar(x = "Year", y = "Salary in Euro")
+salaries_23 = salaries([salaries["Year"] = "2023"])
+salaries["Average Salary"] = salaries["Salary in Euro"].mean()
+salaries_job_title = salaries.nlargest(10,"Average Salary")
+
+salaries_job_title.plot.bar(x = "Job Title", y = "Average Salary")
 
