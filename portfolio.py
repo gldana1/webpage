@@ -43,5 +43,5 @@ salaries_by_title.plot.bar(x = "Job Title", y = "Salary in Euro", width = 0.9, t
 #Pie chart for exp
 #list for chart
 srt_list = ["Entry", "Middle", "Senior", "Executive"]
-experience_pie= salaries_by_title = salaries2023.groupby("Experience Level",as_index=False).count("Salary in Euro").sort_values(srt_list, ascending = False)
-
+experience_pie = pd.DataFrame(salaries2023["Experience Level"].value_counts(normalize=True))
+experience_pie.reindex(srt_list).plot.pie(y = "proportion", title = "Experience Level in 2023", legend = True, startangle = 90, ylabel = "", counterclock = False)
