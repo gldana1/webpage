@@ -64,12 +64,14 @@ y2021 = salaries_year.loc[salaries_year["Year"] == 2021].set_index("Experience L
 y2022 = salaries_year.loc[salaries_year["Year"] == 2022].set_index("Experience Level").reindex(srt_list)
 y2023 = salaries_year.loc[salaries_year["Year"] == 2023].set_index("Experience Level").reindex(srt_list)
 #plt.bar(x - 0.3 , y2020["Salary in Euro"], width = 0.2)
-plt.bar(x - 0.2, y2021["Salary in Euro"], width = 0.2)
-plt.bar(x, y2022["Salary in Euro"], width = 0.2)
-plt.bar(x  + 0.2, y2023["Salary in Euro"], width = 0.2)
+plt.bar(x - 0.2, y2021["Salary in Euro"], width = 0.2, color= colors[0])
+plt.bar(x, y2022["Salary in Euro"], width = 0.2,color= colors[1])
+plt.bar(x  + 0.2, y2023["Salary in Euro"], width = 0.2,color= colors[2] )
 
 plt.tight_layout()
+
+plt.xticks(ticks=[2020,2021,2022,2023], labels=["Entry","Middle","Senior","Executive"])
 plt.legend()
-plt.set_major_locator(ticker.MaxNLocator(integer=True))
+# plt.set_major_locator(ticker.MaxNLocator(integer=True))
 plt.show()
 salaries_year.sort_values("Experience Level").plot.bar(x = "Year" , y = "Salary in Euro", title = "Salary by experience Level", color = colors)
