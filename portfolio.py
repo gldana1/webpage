@@ -59,7 +59,7 @@ salaries_year["Experience Level"] = salaries_year["Experience Level"].cat.set_ca
 # salaries_year.sort_values("Experience Level").plot.bar(x = "Year", y = ["Experience Level", "Salary in Euro"], title = "Salary by experience Level", color = colors)
 
 x = salaries_year["Year"].unique().astype(int)
-#y2020 = salaries_year.loc[salaries_year["Year"] == 2020].set_index("Experience Level")
+y2020 = salaries_year.loc[salaries_year["Year"] == 2020].set_index("Experience Level").reindex(srt_list)
 y2021 = salaries_year.loc[salaries_year["Year"] == 2021].set_index("Experience Level").reindex(srt_list)
 y2022 = salaries_year.loc[salaries_year["Year"] == 2022].set_index("Experience Level").reindex(srt_list)
 y2023 = salaries_year.loc[salaries_year["Year"] == 2023].set_index("Experience Level").reindex(srt_list)
@@ -68,10 +68,17 @@ plt.bar(x - 0.2, y2021["Salary in Euro"], width = 0.2, color= colors[0])
 plt.bar(x, y2022["Salary in Euro"], width = 0.2,color= colors[1])
 plt.bar(x  + 0.2, y2023["Salary in Euro"], width = 0.2,color= colors[2] )
 
-plt.tight_layout()
+y2021["Roi"] = y2021["Salary in Euro"] - y2020["Salary in Euro"]
+y2022["Roi"] = y2022["Salary in Euro"] - y2021["Salary in Euro"]
+y2023["Roi"] = y2023["Salary in Euro"] - y2022["Salary in Euro"]
+plt.plot(x, y2023["Roi"])
 
+
+plt.tight_layout()
+plt.title("Increase of median salaries per year")
 plt.xticks(ticks=[2020,2021,2022,2023], labels=["Entry","Middle","Senior","Executive"])
-plt.legend(['2021','2022','2023' ])
-# plt.set_major_locator(ticker.MaxNLocator(integer=True))
+plt.legend(['Rate of Increase','2021','2022','2023' ])
 plt.show()
-# salaries_year.sort_values("Experience Level").plot.bar(x = "Year" , y = "Salary in Euro", title = "Salary by experience Level", color = colors)
+
+
+salaries2023["sal_bins"] = pd.cut(salaries2023["Salary in Euro"],[0,50000,100000,150000,200000,250000,300000,350000], ordered = True)
