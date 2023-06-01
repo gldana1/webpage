@@ -49,7 +49,7 @@ salary_experience["Experience Level"] = salary_experience["Experience Level"].ca
 salary_experience["Experience Level"] = salary_experience["Experience Level"].cat.set_categories(srt_list)
 
 salary_experience.sort_values("Experience Level").plot.bar(x = "Experience Level", y = "Salary in Euro", title = "Salary by experience Level", color = colors)
-
+plt.show()
 #salary trend per year
 salaries_year = salaries.groupby(by=["Year", "Experience Level"], as_index=False)[["Year", "Experience Level", "Salary in Euro"]].median("Salary in Euro")
 salaries_year["Experience Level"] = salaries_year["Experience Level"].astype("category")
@@ -71,7 +71,7 @@ plt.bar(x  + 0.2, y2023["Salary in Euro"], width = 0.2,color= colors[2] )
 plt.tight_layout()
 
 plt.xticks(ticks=[2020,2021,2022,2023], labels=["Entry","Middle","Senior","Executive"])
-plt.legend()
+plt.legend(['2021','2022','2023' ])
 # plt.set_major_locator(ticker.MaxNLocator(integer=True))
 plt.show()
-salaries_year.sort_values("Experience Level").plot.bar(x = "Year" , y = "Salary in Euro", title = "Salary by experience Level", color = colors)
+# salaries_year.sort_values("Experience Level").plot.bar(x = "Year" , y = "Salary in Euro", title = "Salary by experience Level", color = colors)
