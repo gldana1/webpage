@@ -8,86 +8,91 @@
 <html>
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
-          <a class="navbar-brand" href="#">Portfolio</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="powerbi.html">Power BI</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="python.html">Python</a>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <h2 style="text-align:center">
-        Data analysis using Power BI
-      </h2>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <h3>Intro page</h3>
-            <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
-            <p>In our intro page we have the navigation menu for the pages in the report and the title</p>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-sm-12">
-            <h3>Start Simple</h3>
-            <img class="img-fluid" src="PowerBIimg\portfolio1024_2.jpg">
-            <p>In our second page we have a simple analysis to demonstarte the trend of salaries per year 
-              and the distribution of experience of the people that filled the survey. Clicking on the pie 
-              chart recalculates the top 10 paying jobs per job title in the chart over it.</p>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-sm-12">
-            <h3>Category Analysis</h3>
-            <img class="img-fluid" src="PowerBIimg\portfolio1024_3.jpg">
-            <p>In our third page we have two drop down menus that filter the rest of the page. A matrix on 
-              the top left breaks down the different job titles by category. Comparison with the previous 
-              year and rate of increase is displayed as a aline in the top right visual. There is also a 
-              histogram with the salary distribution broken down in bins of 50k euro each</p>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-sm-12">
-            <h3>Statistical Analysis</h3>
-            <img class="img-fluid" src="PowerBIimg\portfolio1024_4.jpg">
-            <p>In our fourth page we filter the outliers of our dataset using a simple formula that filters 
-              out the vaules that are more than 2 times the mean plus or minus 2 standard deviations. We show 
-              the difference in the forecasted values according to the orignal and the corrected sample using 
-              a toggle button. Outliers in our data eg. very high entry level salaries or very low director 
-              level salaries.</p>
-          </div>
-        </div>        
-        <br>
-        <div class="row">
-          <div class="col-sm-12">
-            <h3>Geographical Analysis</h3>
-            <img class="img-fluid" src="PowerBIimg\portfolio1024_5.jpg">
-            <p>In our fifth page we start our Geographical analysis and display two factors that paint our maps 
-              according to their values. The left one is the average remote ratio for the employees and the 
-              right one is a median value of the salaries. Again selecting a country from the map or the matrix
-               displays only that information.</p>
-          </div>
-        </div>        
-        <br>
-        <div class="row">
-          <div class="col-sm-12">
-            <h3>Download file</h3>
-            <a href="https://github.com/gldana1/webpage/blob/main/PowerBIimg/portfolio.pbix">Sample Power BI File</a>
-          </div>
+        <a class="navbar-brand" href="#">Portfolio</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="powerbi.html">Power BI</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="python.html">Python</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="dax.html">DAX</a>
+            </li>
+          </ul>
         </div>
       </div>
+    </nav>
+    <h2 style="text-align:center">
+      Data analysis using Power BI
+    </h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Intro page</h3>
+          <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
+          <p>In our intro page we have the navigation menu for the pages in the report and the title</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Start Simple</h3>
+          <img class="img-fluid" src="PowerBIimg\portfolio1024_2.jpg">
+          <p>In our second page we have a simple analysis to demonstarte the trend of salaries per year
+            and the distribution of experience of the people that filled the survey. Clicking on the pie
+            chart recalculates the top 10 paying jobs per job title in the chart over it.</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Category Analysis</h3>
+          <img class="img-fluid" src="PowerBIimg\portfolio1024_3.jpg">
+          <p>In our third page we have two drop down menus that filter the rest of the page. A matrix on
+            the top left breaks down the different job titles by category. Comparison with the previous
+            year and rate of increase is displayed as a aline in the top right visual. There is also a
+            histogram with the salary distribution broken down in bins of 50k euro each</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Statistical Analysis</h3>
+          <img class="img-fluid" src="PowerBIimg\portfolio1024_4.jpg">
+          <p>In our fourth page we filter the outliers of our dataset using a simple formula that filters
+            out the vaules that are more than 2 times the mean plus or minus 2 standard deviations. We show
+            the difference in the forecasted values according to the orignal and the corrected sample using
+            a toggle button. Outliers in our data eg. very high entry level salaries or very low director
+            level salaries.</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Geographical Analysis</h3>
+          <img class="img-fluid" src="PowerBIimg\portfolio1024_5.jpg">
+          <p>In our fifth page we start our Geographical analysis and display two factors that paint our maps
+            according to their values. The left one is the average remote ratio for the employees and the
+            right one is a median value of the salaries. Again selecting a country from the map or the matrix
+            displays only that information.</p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Download file</h3>
+          <a href="https://github.com/gldana1/webpage/blob/main/PowerBIimg/portfolio.pbix">Sample Power BI File</a>
+        </div>
+      </div>
+    </div>
     </div>
 </html> 

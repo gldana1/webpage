@@ -22,8 +22,94 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="python.html">Python</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="dax.html">DAX</a>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
+      <h2 style="text-align:center">
+        ETL with Python
+      </h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Acquiring data with REST API</h3>
+            <div class="bg-black text-light">
+            <pre class="bg-dark p-3">
+<span class="text-primary">#</span><span class="text-muted">!/usr/bin/python3</span>
+<span class="text-primary">import</span> <span class="text-info">requests</span>
+<span class="text-primary">import</span> <span class="text-info">pandas</span> <span class="text-primary">as</span> <span class="text-info">pd</span>
+<span class="text-primary">import</span> <span class="text-info">datetime</span> <span class="text-primary">as</span> <span class="text-info">dt</span>
+<span class="text-primary">import</span> <span class="text-info">csv</span>
+<span class="text-primary">from</span> <span class="text-info">sqlalchemy</span> <span class="text-primary">import</span> <span class="text-info">create_engine</span>
+
+<span class="text-primary"># set startdays 60 days before and enddate today</span>
+startdate = dt.datetime.today() - dt.timedelta(days=60)
+fromDate = f'<span class="text-muted">{startdate.isoformat()}</span>'
+
+enddate = dt.datetime.today()
+toDate = f'<span class="text-muted">{enddate.isoformat()}</span>'
+
+<span class="text-primary"># get data</span>
+<span class="text-primary"># read csv file</span>
+parks = []
+<span class="text-primary">with</span> <span class="text-info">open</span>('keys.csv', newline='') <span class="text-primary">as</span> csvfile:
+    reader = csv.DictReader(csvfile)
+    <span class="text-primary">for</span> row <span class="text-primary">in</span> reader:
+        parks.append(row)
+
+<span class="text-primary"># iterate over parks and fetch data</span>
+<span class="text-primary">for</span> park <span class="text-primary">in</span> parks:
+    <span class="text-primary">for</span> confirmed <span class="text-primary">in</span> <span class="text-muted">range</span>(2):  <span class="text-primary"># add confirmed and not confirmed (0 for unconfirmed, 1 for confirmed)</span>
+        <span class="text-primary">try</span>:
+            url = <span class="text-muted">"https://apps.deddie.gr/mdp/rest/getCurves"</span>
+
+            headers = {
+                <span class="text-muted">"token"</span>: park['key'],
+                <span class="text-muted">"scope"</span>: <span class="text-muted">"API"</span>,
+                <span class="text-muted">"Content-Type"</span>: <span class="text-muted">"application/json;charset=utf-8"</span>
+            }
+
+            params = {
+                <span class="text-muted">"analysisType"</span>: 2,
+                <span class="text-muted">"classType"</span>: <span class="text-muted">"injected"</span>,
+                <span class="text-muted">"confirmedDataFlag"</span>: confirmed,
+                <span class="text-muted">"fromDate"</span>: fromDate,
+                <span class="text-muted">"hourAnalysisFlag"</span>: <span class="text-primary">False</span>,
+                <span class="text-muted">"supplyNumber"</span>: park['supplyNumber'],
+                <span class="text-muted">"taxNumber"</span>: park['taxNumber'],
+                <span class="text-muted">"toDate"</span>: toDate
+            }
+
+            response = requests.post(url, json=params, headers=headers)
+
+            <span class="text-primary">if</span> response.status_code == 200:
+                data = response.json()
+                <span class="text-muted">print</span>(<span class="text-muted">"Data Loaded"</span>)
+            <span class="text-primary">else</span>:
+                <span class="text-muted">print</span>(<span class="text-muted">"Error:"</span>, response.status_code)
+        <span class="text-primary">except</span> <span class="text-info">Exception</span> <span class="text-primary">as</span> e:
+            <span class="text-muted">print</span>(f<span class="text-muted">"API could not connect for {park['key']}, check connection. Exception: {e}"</span>)
+            <span class="text-info">exit</span>()
+
+        <span class="text-primary">try</span>:
+            <span class="text-primary">pk</span> = pd.DataFrame(data<span class="text-muted">['curves']</span>)
+            <span class="text-primary">pk</span>[<span class="text-muted">"consumption"] = pk["consumption"].astype("Float64")</span>
+            <span class="text-primary">pk</span>[<span class="text-muted">"meterDate"] = pd.to_datetime(pk["meterDate"], format="%d/%m/%Y %H:%M")</span>
+            <span class="text-muted">print</span>(<span class="text-primary">pk</span>)
+            engine = create_engine(<span class="text-muted">'postgresql://user:user@192.168.1.85:5432/PV'</span>)
+            pk.to_sql(park<span class="text-muted">['Park']</span>, engine, if_exists=<span class="text-muted">'append'</span>,index=<span class="text-primary">False</span>)
+        <span class="text-primary">except</span> KeyError:
+            <span class="text-muted">print</span>(<span class="text-muted">"Empty Response"</span>)
+
+<span class="text-primary"># close the database connection</span>
+engine.dispose()
+<span class="text-muted">print</span>(<span class="text-muted">"Done"</span>)
+/pre>
+            </div>
+            <p>We use a python script to connect to DEDDIE's API and download the data in a postgresql server. In the SQL server we have a stored function on update to get rid of duplicate values</p>
+
 </html> 
