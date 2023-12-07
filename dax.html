@@ -34,13 +34,85 @@
         Dax Expressions
     </h2>
     <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Complex measures in Dax </h3>
+          <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
+          <p>Here we will showcase some complex DAX expressions with questions about the data. </p>
+        </div>
+      </div>
+      <br>
+      <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <h3>Intro page</h3>
-                <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
-                <p>In our intro page we have the navigation menu for the pages in the report and the title</p>
-            </div>
+          <div class="col-sm-12">
+            <h3>Cumulative average sales per month</h3>
+            <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
+            <p>We will calculate the cumulative averages of the product categories </p>
+            <pre class="bg-black text-light p-3">
+Cumulative Average Sales =
+    SUMX (
+        FILTER (
+            SUMMARIZE (
+                ALL ( 'Calendar' ),
+                'Calendar'[Month_Year],
+                "average", AVERAGEA ( Sales[SalesAmount] )
+            ),
+            'Calendar'[Month_Year]
+                <= MAX ( 'Calendar'[Month_Year] )
+        ),
+        [average]
+    )
+            </pre>
+          </div>
         </div>
         <br>
-
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Cumulative average sales per month</h3>
+            <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
+            <p>We will write a measure that identifies the top-selling brand for each month</p>
+            <pre class="bg-black text-light p-3">
+Top selling brand per month = 
+var topbrand = SUMMARIZE(
+    TOPN(
+        1,
+        all('Product'[BrandName]),
+        [TotalSales])
+        ,
+        'Product'[BrandName]
+    )
+RETURN
+    CALCULATE(
+        MIN('Product'[BrandName]),
+        KEEPFILTERS(topbrand)
+        )
+            </pre>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Percentage of top 3 brands per month</h3>
+            <img class="img-fluid" src="PowerBIimg\portfolio1024_1.jpg">
+            <p>We will write a measure that calculates the percentage of total sales contributed by the top 3 brands each month</p>
+            <pre class="bg-black text-light p-3">
+        Top selling brand per month = 
+        var topbrand = SUMMARIZE(
+            TOPN(
+                1,
+                all('Product'[BrandName]),
+                [TotalSales])
+                ,
+                'Product'[BrandName]
+            )
+        RETURN
+            CALCULATE(
+                MIN('Product'[BrandName]),
+                KEEPFILTERS(topbrand)
+                )
+                    </pre>
+          </div>
+        </div>
+        <br>
+        
 </html>
