@@ -115,13 +115,32 @@ pct
             <img class="img-fluid" src="PowerBIimg\avg3month.jpg">
             <p>We will write a measure that calculates the average of all the sales of products with an average of more than 3000 per month</p>
             <pre class="bg-black text-light p-3">
-Average Sales Last 3 months = 
-var last = LASTDATE('Calendar'[DateKey])
-var first = DATEADD(last,-3,MONTH)
-var avmonth = CALCULATE(AVERAGEX(Sales,[Average Sales]),ALLEXCEPT('Calendar','Calendar'[DateKey].[Year],'Calendar'[DateKey].[Month]))
-var tototal = CALCULATE([Average Sales],FILTER('Calendar',last > first && avmonth > 3000))
-var result = CALCULATE(AVERAGEX(Sales,tototal),FILTER(all('Calendar'),'Calendar'[DateKey] < max('Calendar'[DateKey])))
-RETURN result
+Average Sales Last 3 months =
+VAR last =
+    LASTDATE ( 'Calendar'[DateKey] )
+VAR first =
+    DATEADD ( LAST ), -3, MONTH )
+VAR avmonth =
+    CALCULATE (
+        AVERAGEX ( Sales, [Average Sales] ),
+        ALLEXCEPT (
+            'Calendar',
+            'Calendar'[DateKey].[Year],
+            'Calendar'[DateKey].[Month]
+        )
+    )
+VAR tototal =
+    CALCULATE (
+        [Average Sales],
+        FILTER ( 'Calendar', LAST ) > FIRST ) && avmonth > 3000 )
+    )
+VAR result =
+    CALCULATE (
+        AVERAGEX ( Sales, tototal ),
+        FILTER ( ALL ( 'Calendar' ), 'Calendar'[DateKey] < MAX ( 'Calendar'[DateKey] ) )
+    )
+RETURN
+    result
             </pre>
           </div>
         </div>
@@ -132,10 +151,13 @@ RETURN result
             <img class="img-fluid" src="PowerBIimg\PercentChangeMonth.jpg">
             <p>We will write a measure that calculates the percent of Total Sales over month</p>
             <pre class="bg-black text-light p-3">
-PercentChangeOverPreviousMonth = 
-VAR PrevMonthSales = CALCULATE([TotalSales], PARALLELPERIOD('Calendar'[DateKey], -1, MONTH))
-VAR Result = DIVIDE([TotalSales] - PrevMonthSales, PrevMonthSales)
-RETURN Result
+PercentChangeOverPreviousMonth =
+VAR PrevMonthSales =
+    CALCULATE ( [TotalSales], PARALLELPERIOD ( 'Calendar'[DateKey], -1, MONTH ) )
+VAR Result =
+    DIVIDE ( [TotalSales] - PrevMonthSales, PrevMonthSales )
+RETURN
+    Result
             </pre>
           </div>
         </div>
