@@ -112,7 +112,7 @@ pct
         <div class="row">
           <div class="col-sm-12">
             <h3>Average sales of products with more than 3000 average sales</h3>
-            <img class="img-fluid" src="PowerBIimg\avg3moth.jpg">
+            <img class="img-fluid" src="PowerBIimg\avg3month.jpg">
             <p>We will write a measure that calculates the average of all the sales of products with an average of more than 3000 per month</p>
             <pre class="bg-black text-light p-3">
 Average Sales Last 3 months = 
@@ -122,9 +122,44 @@ var avmonth = CALCULATE(AVERAGEX(Sales,[Average Sales]),ALLEXCEPT('Calendar','Ca
 var tototal = CALCULATE([Average Sales],FILTER('Calendar',last > first && avmonth > 3000))
 var result = CALCULATE(AVERAGEX(Sales,tototal),FILTER(all('Calendar'),'Calendar'[DateKey] < max('Calendar'[DateKey])))
 RETURN result
-                    </pre>
+            </pre>
           </div>
         </div>
         <br>
-        
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Monthly Percentage Change</h3>
+            <img class="img-fluid" src="PowerBIimg\PercentChangeMonth.jpg">
+            <p>We will write a measure that calculates the percent of Total Sales over month</p>
+            <pre class="bg-black text-light p-3">
+PercentChangeOverPreviousMonth = 
+VAR PrevMonthSales = CALCULATE([TotalSales], PARALLELPERIOD('Calendar'[DateKey], -1, MONTH))
+VAR Result = DIVIDE([TotalSales] - PrevMonthSales, PrevMonthSales)
+RETURN Result
+            </pre>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Cumulative Average Sales</h3>
+            <img class="img-fluid" src="PowerBIimg\CumuAveSales.jpg">
+            <p>We will write a measure that calculates the cumulative average sales per month</p>
+            <pre class="bg-black text-light p-3">
+CumulativeAverageSales = 
+SUMX(
+    FILTER(
+        SUMMARIZE(
+            ALL('Calendar'),
+            'Calendar'[Month_Year],
+            "average", AVERAGEA(Sales[SalesAmount])
+        ),
+        'Calendar'[Month_Year] <= MAX('Calendar'[Month_Year])
+    ),
+    [average]
+)
+            </pre>
+          </div>
+        </div>
+        <br>
 </html>
