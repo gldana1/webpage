@@ -38,7 +38,7 @@
         <div class="col-sm-12">
           <h3>Complex measures in Dax </h3>
           <img class="img-fluid" src="PowerBIimg\Contoso.webp">
-          <p>Here we will showcase some complex DAX expressions with questions about the data. </p>
+          <p>Here we will showcase some complex DAX expressions with questions about the data. The database used is the Contoso database for PowerBI</p>
         </div>
       </div>
       <br>
@@ -68,7 +68,7 @@ Cumulative Average Sales =
         <br>
         <div class="row">
           <div class="col-sm-12">
-            <h3>Cumulative average sales per month</h3>
+            <h3>Top selling brand for each month</h3>
             <img class="img-fluid" src="PowerBIimg\TopSellingBrandperMonth.png">
             <p>We will write a measure that identifies the top-selling brand for each month</p>
             <pre class="bg-black text-light p-3">
@@ -96,20 +96,32 @@ RETURN
             <img class="img-fluid" src="PowerBIimg\Top3PercentPerMonth.jpg">
             <p>We will write a measure that calculates the percentage of total sales contributed by the top 3 brands each month</p>
             <pre class="bg-black text-light p-3">
-        Top selling brand per month = 
-        var topbrand = SUMMARIZE(
-            TOPN(
-                1,
-                all('Product'[BrandName]),
-                [TotalSales])
-                ,
-                'Product'[BrandName]
-            )
-        RETURN
-            CALCULATE(
-                MIN('Product'[BrandName]),
-                KEEPFILTERS(topbrand)
-                )
+Top 3 percentage = 
+var topbrand = SUMMARIZE(TOPN(3,all('Product'[BrandName]),[TotalSales]),'Product'[BrandName])
+var totsales = CALCULATE([TotalSales],all('Product'[BrandName]))
+var pct = DIVIDE(
+    CALCULATE(SUMX(Sales,[TotalSales]),KEEPFILTERS(topbrand)),
+    totsales)
+RETURN
+pct
+                    </pre>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Average sales of products with more than 3000 average sales</h3>
+            <img class="img-fluid" src="PowerBIimg\avg3moth.jpg">
+            <p>We will write a measure that calculates the average of all the sales of products with an average of more than 3000 per month</p>
+            <pre class="bg-black text-light p-3">
+Average Sales Last 3 months = 
+var last = LASTDATE('Calendar'[DateKey])
+var first = DATEADD(last,-3,MONTH)
+var avmonth = CALCULATE(AVERAGEX(Sales,[Average Sales]),ALLEXCEPT('Calendar','Calendar'[DateKey].[Year],'Calendar'[DateKey].[Month]))
+var tototal = CALCULATE([Average Sales],FILTER('Calendar',last > first && avmonth > 3000))
+var result = CALCULATE(AVERAGEX(Sales,tototal),FILTER(all('Calendar'),'Calendar'[DateKey] < max('Calendar'[DateKey])))
+RETURN result
                     </pre>
           </div>
         </div>
